@@ -6,13 +6,13 @@ process:
     twig: true
 ---
 
-The concept of **Modular Pages** is a little tricky to get your head around at first, but when you do you'll see how convenient they are to use. A **Modular Page** is a collection of pages stacked on top of each other to create a unified, single page. This let's you create a complex page-structure by using the **LEGO building-brick**-approach, and who doesn't love LEGO?!
+The concept of **Modular Pages** is a little tricky to get your head around at first, but when you do you'll see how convenient they are to use. A **Modular Page** is a collection of pages stacked on top of each other to create a unified, single page. This lets you create a complex page-structure by using the **LEGO building-brick**-approach, and who doesn't love LEGO?!
 
 ## What are Modular Pages and what are they not?
 
-In Grav, [Pages]((/content/content-pages)) are a broad concept that captures almost any type of combination of elements that you can imagine going into a website. Importantly, Modular Pages are a subset of this concept but not the same as a regular Page. A regular Page is fairly standalone, in the sense that Grav will render and display it without depending on other content such as other pages or child-pages. A Modular page, however, does not have child-pages. This is illustrated by imagining a simple page-structure:
+In Grav, [Pages](/content/content-pages) are a broad concept that captures almost any type of combination of elements that you can imagine going into a website. Importantly, Modular Pages are a subset of this concept but not the same as a regular Page. A regular Page is fairly standalone, in the sense that Grav will render and display it without depending on other content such as other pages or child-pages. A Modular page, however, does not have child-pages. This is illustrated by imagining a simple page-structure:
 
-A regular Page found at _domain.com/books_ has some details about what books is for sale. Several child-pages exist for this Page, such as _domain.com/books/gullivers-travels_ and _domain.com/books/the-hobbit_. Their folders are named the same as the address that Grav renders: `/pages/books`, `/pages/books/gullivers-travels`, and `/pages/books/the-hobbit`. This structure would not work in a Modular Page.
+A regular Page found at _domain.com/books_ has some details about what books are for sale. Several child-pages exist for this Page, such as _domain.com/books/gullivers-travels_ and _domain.com/books/the-hobbit_. Their folders are named the same as the address that Grav renders: `/pages/books`, `/pages/books/gullivers-travels`, and `/pages/books/the-hobbit`. This structure would not work in a Modular Page.
 
 A Modular Page does not have child-pages in the same sense, rather, it has **Modules** that make up the parts of the page. So, rather than various books located beneath the top-level page, the modular page displays its modules on **the same page**. Gulliver's Travels and The Hobbit both appear in _domain.com/books_, with the paths `/pages/books/_gullivers-travels` and `/pages/books/_the-hobbit`. Thus, Modular Pages are not directly compatible with regular Pages and have their own structure.
 
@@ -33,9 +33,11 @@ Each subfolder contains a Markdown-file which acts as a page.
 The data within these Module-folders - including Markdown-files, images, etc. - is then pulled and displayed on the Modular page. This is accomplished by creating a primary page, defining a [Page Collection](/content/collections) in the primary page's YAML FrontMatter, then iterating over this Collection in a Twig-template to generate the combined HTML page. A theme should already have a `modular.html.twig` template that will do this and is used when you create a Modular Page type. Here's a simple example from a `modular.html.twig`:
 
 ```twig
+{% verbatim %}
 {% for module in page.collection() %}
     {{ module.content }}
 {% endfor %}
+{% endverbatim %}
 ```
 
 Here is an example of the resulting modular page, highlighting the different modular folders which are used.

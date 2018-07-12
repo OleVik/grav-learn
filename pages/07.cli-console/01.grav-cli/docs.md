@@ -6,9 +6,9 @@ taxonomy:
 
 Grav comes with a built-in command-line interface (CLI) which can be found at `bin/grav`. The CLI is extremely useful for running recurring tasks such as **clearing the cache**, making **backups**, and more.
 
-Accessing the CLI is a simple process but you need to use a **terminal**.  On a mac this is called `Terminal`, on windows its called `cmd` and on Linux its just a shell. UNIX style commands are not natively available in Windows cmd. Installing the [msysgit](http://msysgit.github.io/) package on a Windows machine adds [Git](http://git-scm.com/) and Git BASH, which is an alternative command prompt that makes UNIX commands available.  If you are accessing your server remotely, you most likely will use **SSH** to remotely log in to your server.  Check out this [great tutorial for more information on SSH](http://code.tutsplus.com/tutorials/ssh-what-and-how--net-25138).
+Accessing the CLI is a simple process but you need to use a **terminal**.  On a mac this is called `Terminal`, on windows, it's called `cmd` and on Linux, it's just a shell. UNIX style commands are not natively available in Windows cmd. Installing the [msysgit](http://msysgit.github.io/) package on a Windows machine adds [Git](http://git-scm.com/) and Git BASH, which is an alternative command prompt that makes UNIX commands available.  If you are accessing your server remotely, you most likely will use **SSH** to remotely log in to your server.  Check out this [great tutorial for more information on SSH](http://code.tutsplus.com/tutorials/ssh-what-and-how--net-25138).
 
-Although some operations can be performed manually, by _relying_ on the CLI, these tasks could be automated via _cron-jobs_ that run daily.
+Although some operations can be performed manually, by _relying_ on the CLI, these tasks could be automated via _cronjobs_ that run daily.
 
 To get a list of all the commands available in Grav, you can run the command:
 
@@ -34,11 +34,11 @@ Zend Engine v2.5.0, Copyright (c) 1998-2014 Zend Technologies
     with the ionCube PHP Loader v4.6.1, Copyright (c) 2002-2014, by ionCube Ltd.
 ```
 
-If you see a reference to `(cgi-fcgi)` you will need to prefix all `bin/grav` commands with `php-cli`. Alternatively you can setup an alias in your shell with something like: `alias php="php-cli"` which will ensure the **CLI** verison of PHP runs from the command line.
+If you see a reference to `(cgi-fcgi)` you will need to prefix all `bin/grav` commands with `php-cli`. Alternatively, you can set up an alias in your shell with something like: `alias php="php-cli"` which will ensure the **CLI** verison of PHP runs from the command line.
 
 ## Creating a new Project
 
-Every time you want to start a new project with Grav, you need to start with a clean Grav instance. Through the CLI, this process is super easy and takes only few seconds.
+Every time you want to start a new project with Grav, you need to start with a clean Grav instance. Through the CLI, this process is super easy and takes only a few seconds.
 
 1. Launch a **terminal** or **console** and navigate to the _grav_ folder (for the sake of this document we will assume it resides under  `~/Projects/grav`)
 
@@ -53,6 +53,12 @@ Every time you want to start a new project with Grav, you need to start with a c
     ```
 
 This will create a new Grav instance and download all the dependencies required.
+
+### Copying a Project
+
+Grav has a nifty utility called `sandbox`, which can quickly create a [symlinked](/cli-console/command-line-intro#symbolic-links) copy of the Grav-installation. Simply put, running `bin/grav sandbox -s DESTINATION` - where "DESTINATION" is the path to the folder where you want the copied installation - recreates the Grav-installation in another folder.
+
+For example, running `bin/grav sandbox -s ../copy` from your current Grav-folder creates a sibling-folder named "copy", where the following folders are virtual copies: /bin, /system, /vendor, /webserver-configs, as well as standard files that typically reside in Grav's root-folder. All content in /user will be carbon copies, not virtual, so you can easily get started with customizing the new installation without having created overhead from core files.
 
 ## Installing Grav Dependencies
 
@@ -85,7 +91,7 @@ There are several options for this command.  They include: `--all`, `--assets-on
 
 Backing up your project is nothing more than creating an archive of the _ROOT_ of Grav. No Database, no complications.
 
-Of course you can simplify this even more by just using the Grav CLI. Supposing we have our `~/workspace/portfolio` project and that we want to create a backup of it, here's what we will do:
+Of course, you can simplify this even more by just using the Grav CLI. Supposing we have our `~/workspace/portfolio` project and that we want to create a backup of it, here's what we will do:
 
 ```bash
 $ cd ~/workspace/portfolio

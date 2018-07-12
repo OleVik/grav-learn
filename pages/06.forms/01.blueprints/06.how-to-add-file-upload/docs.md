@@ -6,19 +6,23 @@ taxonomy:
 
 ### File Uploads
 
-You can add file upload functionality in Pages, Config, Plugins and Themes blueprints. File uploads are always Ajax based and allow Drag & Drop from the desktop or picking them as regular file fields. Everytime a file is added to the field, it's automatically uploaded to a temporary folder, and will only be stored when the Save (or Submit) action takes place.
+You can add file upload functionality in Pages, Config, Plugins and Themes blueprints. File uploads are always Ajax based and allow Drag & Drop from the desktop or picking them as regular file fields. Every time a file is added to the field, it's automatically uploaded to a temporary folder, and will only be stored when the Save (or Submit) action takes place. 
 
 Example of usage:
 
 ```
 custom_file:
+  name: myfile
   type: file
   label: A Label
   destination: 'user/plugins/my-plugin/assets'
   multiple: true
+  autofocus: false
   accept:
     - image/*
 ```
+
+! In order to add a file upload, you must have a bottom javascript render command in your base Twig template.  `{{ assets.js('bottom') }}`
 
 ## Options
 
@@ -35,7 +39,6 @@ custom_file:
   random_name: false
   avoid_overwriting: false
   limit: 10
-  filesize: 5
   accept:
     - image/*
 ```
@@ -112,15 +115,7 @@ When the [`multiple`](#multiple) setting is enabled, `limit` allows to constrain
 
 When `limit` is set to **0**, it means that there are no restrictions on the amount of allowed files that can be uploaded.
 
-!! It is good practise to always ensure you have a set limit of allowed files that can be uploaded. This way you have more control over your server resources utilizasions.
-
-#### `filesize`
-
-``` yaml
-filesize: 5 # in MB, [1...X | 0 (unlimited: constraint to `system.media.upload_limit` setting)]
-```
-
-This setting allows to constrain the maximum size, in MB, for each individual file. When set to **0**, it is considered unlimited, however it is constraint to your Grav `system.media.upload_limit` as well as your PHP settings.
+!! It is good practice to always ensure you have a set limit of allowed files that can be uploaded. This way you have more control over your server resources utilizations.
 
 #### `accept`
 

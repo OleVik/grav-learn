@@ -18,7 +18,7 @@ This page contains an assortment of problems and their respective solutions rela
    * [How do I inject HTML into the final output?](#how-do-i-inject-html-into-the-final-output)
    * [How do I inject assets like JavaScript and CSS files?](#how-do-i-inject-assets-like-javascript-and-css-files)
    * [How do I affect the response headers and response codes?](#how-do-i-affect-the-response-headers-and-response-codes)
-   * [How do I incorporate third-party libaries into my plugin?](#how-do-i-incorporate-third-party-libaries-into-my-plugin)
+   * [How do I incorporate third-party libraries into my plugin?](#how-do-i-incorporate-third-party-libaries-into-my-plugin)
    * [How do I extend Twig?](#how-do-i-extend-twig)
    * [How do I interact with external APIs?](#how-do-i-interact-with-external-apis)
 
@@ -196,14 +196,14 @@ Let's now move onto the jQuery below that. Here, the tag containing the `data-se
 1. The `Enter` key has been pressed: `event.which == 13` where 13 is the numeric value of the `Enter` key on the keyboard.
 2. The number of characters entered into the searchbox in greater than three. You may want to adjust this to taste as your organization may have many acronyms that are three characters or less.
 
-If they are true, then `event.preventDefault();` makes sure that the default browser action for the `Enter` key is ignored as this would prevent our search from occuring. Finally, the full URL of the search query is constructed. The default is `http://yoursite/search/query:yourquery`. From here, `/yoursite/user/plugins/simplesearch/simplesearch.php` performs the actual search and the other Twig files in the plugin list the results.
+If they are true, then `event.preventDefault();` makes sure that the default browser action for the `Enter` key is ignored as this would prevent our search from occurring. Finally, the full URL of the search query is constructed. The default is `http://yoursite/search/query:yourquery`. From here, `/yoursite/user/plugins/simplesearch/simplesearch.php` performs the actual search and the other Twig files in the plugin list the results.
 
 No back to our solution! If we wish to add a search button, we must:
 
 1. Add the button
 2. Make sure to apply the `.on()` method to the button, but this time, using `click` instead of `keypress`
 
-This is acheived with the following code using the [Turret CSS Framework](http://bigfishtv.github.io/turret/docs/index.html). Code snippets for other frameworks will be listed at the end.
+This is achieved with the following code using the [Turret CSS Framework](http://bigfishtv.github.io/turret/docs/index.html). Code snippets for other frameworks will be listed at the end.
 ```
 <div class="input-group input-group-search">
 	<input type="search" placeholder="Search" value="{{ query }}" data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route}}/query" >
@@ -281,9 +281,9 @@ You want to access all pages and each page's associated media through PHP and/or
 
 Use Grav's collection-capabilities to construct a recursive index of all pages, and when indexing also gather up media-files for each page. The [DirectoryListing](https://github.com/OleVik/grav-plugin-directorylisting/blob/v2.0.0-rc.2/Utilities.php#L64-L105)-plugin does exactly this, and builds a HTML-list using the produced tree-structure. To do this, we'll create a recursive function - or method as may be the case within a plugin's class - that goes through each page and stores it in an array. The method is recursive, because it calls itself again for each page it finds that has children.
 
-First things first, though, the method takes three parameters: The first is the `$route` to the page, which tells Grav where to find it; the second is the `$mode`, which tells the method whether to iterate over the page itself or its children; the third is the `$depth`, which keeps track of what level the page is on. The method initially instantiates the Page-object, then deals with depth and mode, and constructs the collection. By default we order the pages by Date, Descending, but you could make this configurable. Then we construct an array, `$paths`, to hold each page. Since routes are unique in Grav, they are used as keys in this array to identify each page.
+First things first, though, the method takes three parameters: The first is the `$route` to the page, which tells Grav where to find it; the second is the `$mode`, which tells the method whether to iterate over the page itself or its children; the third is the `$depth`, which keeps track of what level the page is on. The method initially instantiates the Page-object, then deals with depth and mode, and constructs the collection. By default, we order the pages by Date, Descending, but you could make this configurable. Then we construct an array, `$paths`, to hold each page. Since routes are unique in Grav, they are used as keys in this array to identify each page.
 
-Now we iterate over the pages, adding depth, title, and route (also kept as a value for ease-of-access). Within the foreach-loop we also try to retrieve child-pages, and add them if found. Also, we find all media associated with the page, and add them. Because the method is recursive, it will continue looking for pages and child-pages until no more can be found.
+Now we iterate over the pages, adding depth, title, and route (also kept as a value for ease-of-access). Within the foreach-loop, we also try to retrieve child-pages, and add them if found. Also, we find all media associated with the page, and add them. Because the method is recursive, it will continue looking for pages and child-pages until no more can be found.
 
 The returned data is a tree-structure, or multidimensional-array in PHP's parlance, containing all pages and their media. This can be passed into Twig, or used within the plugin itself. Note that with very large folder-structures PHP might time out or fail because of recursion-limits, eg. folders 100 or more levels deep.
 
@@ -348,7 +348,7 @@ $ bin/gpm install devtools
 After that's installed, create a new plugin with the command:
 
 ```
-$ bin/gpm plugin devtools newplugin
+$ bin/plugin devtools newplugin
 ```
 
 Fill in the details for the name, author, etc.  Say we call it `Custom Templates`, and the plugin will be created in `/user/plugins/custom-templates`.  All you need to do now is edit the `custom-templates.php` file and put this code:
@@ -411,7 +411,7 @@ Grav might be flat file, but flat file &#8800; static! There are numerous ways r
 
   * If you just need read access to YAML data, check out the [Import plugin](https://github.com/Deester4x4jr/grav-plugin-import).
 
-  * The preferred interface is via the built-in [RocketTheme\Toolbox\File](https://learn.getgrav.org/api/RocketTheme/Toolbox/File.html) interface.
+  * The preferred interface is via the built-in [RocketTheme\Toolbox\File](https://learn.getgrav.org/api#class-RocketThemeToolboxFile) interface.
 
   * There's nothing stopping you from using [SQLite](https://sqlite.org/) either.
 
@@ -458,7 +458,7 @@ The latest you can inject HTML, and still have your output cached, is during the
 
 #### How do I inject assets like JavaScript and CSS files?
 
-This is done through the [Grav\Common\Assets](https://learn.getgrav.org/api/Grav/Common/Assets.html) interface.
+This is done through the [Grav\Common\Assets](https://learn.getgrav.org/api#class-gravcommonassets) interface.
 
   * [Google Analytics](https://github.com/escopecz/grav-ganalytics)
 
@@ -476,9 +476,9 @@ You can use PHP's `header()` command to set response headers. The latest you can
 
   * The [Webmention](https://github.com/Perlkonig/grav-plugin-webmention) sets the `Location` header on a `201 CREATED` response.
 
-#### How do I incorporate third-party libaries into my plugin?
+#### How do I incorporate third-party libraries into my plugin?
 
-Usually you'd incorporate other complete libraries into a `vendor` subfolder and `require` its `autoload.php` where appropriate in your plugin. (If you're using Git, consider using [subtrees](https://help.github.com/articles/about-git-subtree-merges/).)
+Usually, you'd incorporate other complete libraries into a `vendor` subfolder and `require` its `autoload.php` where appropriate in your plugin. (If you're using Git, consider using [subtrees](https://help.github.com/articles/about-git-subtree-merges/).)
 
   * [Shortcode Core](https://github.com/getgrav/grav-plugin-shortcode-core)
 
@@ -486,11 +486,11 @@ Usually you'd incorporate other complete libraries into a `vendor` subfolder and
 
 #### How do I extend Twig?
 
-First [read the Twig docs](http://twig.sensiolabs.org/doc/advanced.html) and develop your extension. Then look at the [TwigPCRE](https://github.com/kesslernetworks/grav-plugin-twigpcre) plugin to learn how to incorporate it into Grav.
+First, [read the Twig docs](http://twig.sensiolabs.org/doc/advanced.html) and develop your extension. Then look at the [TwigPCRE](https://github.com/kesslernetworks/grav-plugin-twigpcre) plugin to learn how to incorporate it into Grav.
 
 #### How do I interact with external APIs?
 
-Grav provides the [Grav\Common\GPM\Response](https://learn.getgrav.org/api/Grav/Common/GPM/Response.html) object, but there's nothing stopping you from doing it directly if you so wish.
+Grav provides the [Grav\Common\GPM\Response](https://learn.getgrav.org/api#class-grav-common-gpm-response) object, but there's nothing stopping you from doing it directly if you so wish.
 
   * [ipLocate](https://github.com/Perlkonig/grav-plugin-iplocate)
 

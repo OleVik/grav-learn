@@ -45,6 +45,13 @@ Alternatively you can put them in your theme, as that is easily accessible via C
 
 !!!! Grav has a `/images` folder. Do not put your own images in that folder, as it hosts Grav auto-generated, cached images.
 
+You may also want to put all the media files into their own folder, so that they can all be accessed at one go. For instance you might want to keep all your MP3 files in a folder `user/pages/mp3s` (not visible) and put the name of the MP3 file associated with a particular page in a header field called `thistrack`. If you then wish to access the file for a partiular page and play it using the HTML5 audio element, you will need code like this:
+
+    <audio controls>
+    <source src="{{ page.find('/mp3s').media[page.header.thistrack~'.mp3'] }}">
+    </audio>
+
+
 ## Display modes
 
 Grav provides a few different display modes for every kind of media object.
@@ -786,6 +793,134 @@ Audio media will display an HTML5 audio link:
 
 ![Hal 9000: I'm Sorry Dave](hal9000.mp3)
 
+#### controls(value)
+
+Allows explicitly setting or removing the HTML5 default controls. Passing `0` hides browser's controls for playback, volume, etc..
+
+[ui-tabs]
+[ui-tab title="Markdown"]
+```
+![Hal 9000: I'm Sorry Dave](hal9000.mp3?controls=0)
+```
+[/ui-tab]
+[ui-tab title="Twig"]
+{% verbatim %}
+```
+{{ page.media['hal9000.mp3'].controls(0) }}
+```
+{% endverbatim %}
+[/ui-tab]
+[ui-tab title="HTML Code"]
+```
+{{ page.media['hal9000.mp3'].controls(0) }}
+```
+[/ui-tab]
+[/ui-tabs]
+
+#### preload(value)
+
+Allows setting of `preload` property, which defaults to `auto`. Permitted params are `auto`, `metadata`, and `none`.
+
+!! <q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio#attr-preload">If not set, its default value is browser-defined (i.e. each browser may have its own default value). The spec advises it to be set to <code>metadata</code>.</q>
+
+!! The `preload` attribute is ignored if `autoplay` is present.
+
+[ui-tabs]
+[ui-tab title="Markdown"]
+```
+![Hal 9000: I'm Sorry Dave](hal9000.mp3?preload=metadata)
+```
+[/ui-tab]
+[ui-tab title="Twig"]
+{% verbatim %}
+```
+{{ page.media['hal9000.mp3'].preload('metadata') }}
+```
+{% endverbatim %}
+[/ui-tab]
+[/ui-tabs]
+
+#### autoplay(value)
+
+Allows setting whether audio will `autoplay` upon page load. Defaults to `false` by omission if not set.
+
+!! If `autoplay` and `preload` are both present on a given `audio` element, `preload` will be ignored.
+
+[ui-tabs]
+[ui-tab title="Markdown"]
+```
+![Hal 9000: I'm Sorry Dave](hal9000.mp3?autoplay=1)
+```
+[/ui-tab]
+[ui-tab title="Twig"]
+{% verbatim %}
+```
+{{ page.media['hal9000.mp3'].autoplay(1) }}
+```
+{% endverbatim %}
+[/ui-tab]
+[/ui-tabs]
+
+
+#### controlsList(value1-[value2]-[value3])
+
+Allows setting of `controlsList` property, which takes one or more of three possible values: `nodownload`, `nofullscreen`, and `noremoteplayback`.
+
+!! If setting more than one parameter in markdown, separate each with a dash (`-`). These will be replaced by spaces in the output HTML. 
+
+[ui-tabs]
+[ui-tab title="Markdown"]
+```
+![Hal 9000: I'm Sorry Dave](hal9000.mp3?controlsList=nodownload-nofullscreen-noremoteplayback)
+```
+[/ui-tab]
+[ui-tab title="Twig"]
+{% verbatim %}
+```
+{{ page.media['hal9000.mp3'].controlsList('nodownload nofullscreen noremoteplayback') }}
+```
+{% endverbatim %}
+[/ui-tab]
+[/ui-tabs]
+
+#### muted(value)
+
+Allows setting whether audio is `muted` on load. Defaults to `false` by omission if not set.
+
+[ui-tabs]
+[ui-tab title="Markdown"]
+```
+![Hal 9000: I'm Sorry Dave](hal9000.mp3?muted=1)
+```
+[/ui-tab]
+[ui-tab title="Twig"]
+{% verbatim %}
+```
+{{ page.media['hal9000.mp3'].muted(1) }}
+```
+{% endverbatim %}
+[/ui-tab]
+[/ui-tabs]
+
+#### loop(value)
+
+Allows setting whether audio will `loop` upon playing through completion. Defaults to `false` by omission if not set.
+
+[ui-tabs]
+[ui-tab title="Markdown"]
+```
+![Hal 9000: I'm Sorry Dave](hal9000.mp3?loop=1)
+```
+[/ui-tab]
+[ui-tab title="Twig"]
+{% verbatim %}
+```
+{{ page.media['hal9000.mp3'].loop(1) }}
+```
+{% endverbatim %}
+[/ui-tab]
+[/ui-tabs]
+
 ## File Actions
 
 Grav does not provide any custom actions on files at this point in time and there are no plans to add any. Should you think of something, please contact us.
@@ -894,8 +1029,6 @@ To start using responsive images, all you need to do is add higher density image
 
 Grav also has support for media queries inside the `sizes` attribute, allowing you to use different widths depending on the device's screen size. In contrast to the first method, you don't have to create multiple images; they will get created automatically. The fallback image is the current image, so a browser without support for `srcset`, will display the original image.
 
-!! For the moment it does not work inside markdown, only in your ```twig``` files.
-
 [ui-tabs]
 [ui-tab title="Markdown"]
 ```
@@ -962,6 +1095,17 @@ In our example, we set the maximum to `1600`. This will result in increments of 
 
 !!!! Depending on your display and your browser's implementation and support for `srcset`, you might never see a difference. We included the HTML markup in the fourth tab so you can see what's happening behind the screens.
 
+
+#### Manual size definition
+
+Instead of letting Grav generate the sizes in even steps between given boundaries, you may manually define which sizes Grav should generate:
+
+```
+![](retina.jpg?derivatives=[360,720,1200])
+```
+
+This will generate downsizes versions of the `retina.jpg` image in three widths: 360, 720 and 1200px.
+
 ## Metafiles
 
 Every medium that you reference in Grav, e.g. `image1.jpg`, `sample-trailer.mov`, or even `archive.zip` has the ability to have variables set or even overridden via a **metafile**.  These files take the format of `<filename>.meta.yaml`.  For example, for an image with the filename `image1.jpg` you could create a metafile called `image1.jpg.meta.yaml`.
@@ -990,3 +1134,23 @@ Let's say you wanted to just pull the `alt_text` value listed for the image file
 {% endverbatim %}
 
 This will pull up the example phrase `My Alt Text` instead of the image. This is just a basic example. You can use this method for a number of things, including creating a gallery with multiple unique data points you want to have referenced for each image. Your images, in essence, have a set of data unique to them that can be easily referenced and pulled as needed.
+
+## Video Options
+
+In-line video control options are another capability baked into Grav. These options, added in-line with the file name, give you the ability to determine an embedded video's `autoplay`, `controls`, and `loop` settings.
+
+Here is an example:
+
+```
+![video.mov](video.mov?loop=1&controls=0&autoplay=1)
+```
+
+The options are as follows:
+
+| Attribute   | Explanation                                                                               |
+| :-----      | :-----                                                                                    |
+| autoplay    | Enables (`1`) or Disables (`0`) autoplay for the video on pageload.                       |
+| controls    | Enables (`1`) or Disables (`0`) media controls for the embedded video.                    |
+| loop        | Enables (`1`) or Disables (`0`) automatic looping for the video, replaying it as it ends. |
+
+

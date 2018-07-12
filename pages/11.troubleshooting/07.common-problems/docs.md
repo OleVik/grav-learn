@@ -7,9 +7,9 @@ taxonomy:
 Here you can find information on problems and issues raised on [Grav forum](http://getgrav.org/forum) and in the [Slack Chat room](https://chat.getgrav.org) that occur frequently enough that we thought we would save time and list the problem and the relevant solution in one easy to find location.
 
 1. [Cannot connect to the GPM](#cannot-connect-to-the-gpm)
-2. [Invalid Security Token](#invalid-security-token)
-3. [Admin Interface won't scroll](#admin-interface-wont-scroll)
-4. [Fetch failed](#fetch-failed)
+1. [Admin Interface won't scroll](#admin-interface-wont-scroll)
+1. [Fetch failed](#fetch-failed)
+1. [Zend OPcache API is restricted](#zend-opcache-api-is-restricted)
 
 ### Cannot connect to the GPM
 
@@ -29,18 +29,6 @@ To work around this problem, we have added a new system config `system.gpm.verif
 If at this point it's still not working, get in touch, or report back if you were pointed here via chat/forum.
 
 Also, check the CLI command is working, by opening a SSH connection to the server and running `bin/gpm index` and check if it's just inside Admin that you get this error, or in the command line too.
-
-### "Invalid security token"
-
-**Problem:** You get this error in the Admin panel
-
-**Solution:**
-
-There are a few possible causes of the problem, all linked to the Session.
-
-- Try clearing your browser cookies, that's the easiest way and clears a possible cause of the problem.
-- Check that PHP has the correct tmp path set up. This can be set in PHP directly, or by setting Grav's `system.yaml` `session.path` setting (it can be also set via Admin, in the System Configuration) [Reported issue](https://github.com/getgrav/grav-plugin-admin/issues/958)
-- Make sure your web server config is right and includes the query string [Reported issue](https://github.com/getgrav/grav-plugin-admin/issues/893)
 
 ### Admin Interface won't scroll
 
@@ -72,3 +60,21 @@ This can be solved by finding and disabling the rules that are raised, which dep
 If you are running your own server, a guide on how to do this can be found in [http://www.inmotionhosting.com/support/website/modsecurity/find-and-disable-specific-modsecurity-rules](http://www.inmotionhosting.com/support/website/modsecurity/find-and-disable-specific-modsecurity-rules), otherwise just contact your hosting provider and illustrate the problem.
 
 Related issue: [admin#951](https://github.com/getgrav/grav-plugin-admin/issues/951)
+
+### Zend OPcache API is restricted
+
+If you are running PHP with Zend OPache and you receive this error, then your current OPCache configuration is [limiting access to OPcache API function to scripts only from a specified string](http://php.net/manual/en/opcache.configuration.php). The simplest solution to this is to find the location of this directive either in your `php.ini` file or in a specialized `opcache.ini` file that is being pulled in to your overall `php.ini` file and set this value to nothing:
+
+```
+opcache.restrict_api=
+```
+
+This is an issue with any [ServerPilot](https://serverpilot.io) managed hosting with PHP 7.2 enabled.  A ticket has been submitted to resolve this on their end.
+
+### LinkedIn Sharing and Wayback Machine Indexing Not Working
+
+**Problem:** Sharing pages with LinkedIn and having the page's data propagate is not working. The Wayback Machine is not properly indexing my website's pages.
+
+**Solution:** Enable WebServer Gzip or Gzip compression. Both may be used, but at least one needs to be active for these particular functions to work on some server cases.
+
+This [issue](https://github.com/getgrav/grav/issues/1639) has popped up for users on specific server environments. In particular, with AWS cloud-based servers, users were experiencing issues sharing web pages from their Grav sites on LinkedIn or having them properly indexed by the Wayback Machine. This problem was resolved by turning on either WebServer Gzip or Gzip compression.

@@ -90,16 +90,27 @@ Some sample page content
 
 !!! Make sure you configured the "Email from" and "Email to" email addresses in the Email plugin with your email address
 
-Make sure you add your own `recaptcha_site_key` reCAPTCHA parameter ([see the reCAPTCHA docs](https://developers.google.com/recaptcha/docs/start)). If you don't need captcha at all, just remove it from the form fields, and remove the captcha process action too.
+Make sure you add your own `recaptcha_site_key` reCAPTCHA parameter ([see the reCAPTCHA V2 docs](https://developers.google.com/recaptcha/intro)). If you don't need captcha at all, just remove it from the form fields, and remove the captcha process action too.
 
-Now inside the page folder create a subfolder named `thankyou/`, create a new file named `formdata.md`. Users submitting the form will be redirected on that page.
+Now inside the page folder create a subfolder named `thankyou/`, create a new file named `formdata.md`. And paste the following code into the file:
 
-The `formdata` page template is provided in Antimatter and other themes. If your theme does not provide it, you'll see an error. You can just copy it from Antimatter and things should work fine.
+```
+---
+title: Email sent
+cache_enable: false
+process:
+    twig: true
+---
+
+## Email sent!
+```
 
 That's it!
 
 !!! Modular pages are a bit different. In this case, also see [using forms in modular pages](https://learn.getgrav.org/forms/forms/how-to-forms-in-modular-pages)
 
-When users submit the form, the plugin will send an email to you (as set in the `from` setting of the Grav Email Plugin), and will save the entered data in the data/ folder.
+When users submit the form, the plugin will send an email to you (as set in the `form` setting of the Grav Email Plugin), and will save the entered data in the data/ folder.
+
+! For full details on setting up and configuring email, please read the [Email plugin documentation](https://github.com/getgrav/grav-plugin-email/blob/develop/README.md)
 
 You can activate the **Grav Data Manager** plugin to see that data in the **Admin Plugin**.

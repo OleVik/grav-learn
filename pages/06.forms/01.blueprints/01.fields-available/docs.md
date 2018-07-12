@@ -16,7 +16,7 @@ In addition to the fields listed below, reserved for usage in the Admin, you can
 | :-----                                            | :-----                                                                                                                                                                                                      |
 | **[Array](#the-array-field)**                     | used to create key-value arrays                                                                                                                                                                             |
 | **[Colorpicker](#the-colorpicker-field)**                     | show a color picker                                                                                                                                                                             |
-| **[Columns](#the-columns-column-fields)**         | used to break the form in multiple columns                                                                                                                                                                  |
+| **[Columns](#the-columns-column-fields)**         | used to break the form into multiple columns                                                                                                                                                                  |
 | **[Column](#the-columns-column-fields)**          | used to show a single column (used with the `Columns` field)                                                                                                                                                |
 | **[Dateformat](#the-dateformat-field)**           | a special select that renders the current date/time in the passed formats                                                                                                                                   |
 | **[Datetime](#the-datetime-field)**               | a date and time selection field                                                                                                                                                                             |
@@ -45,7 +45,7 @@ This list provides a common ground so there's no need to repeat the description 
 | :-----              | :-----                                                                                                                                                                                                         |
 | `autocomplete`      | accepts `on` or `off`                                                                                                                                                                                          |
 | `autofocus`         | if enabled, autofocus on that field                                                                                                                                                                            |
-| `classes`           | accepts a string with one of more CSS classes to add                                                                                                                                                           |
+| `classes`           | accepts a string with one or more CSS classes to add                                                                                                                                                           |
 | `default`           | sets the field default value                                                                                                                                                                                   |
 | `disabled`          | sets the field disabled state                                                                                                                                                                                  |
 | `help`              | Adds a tooltip to the field                                                                                                                                                                                    |
@@ -54,7 +54,7 @@ This list provides a common ground so there's no need to repeat the description 
 | `name`              | sets the field name                                                                                                                                                                                            |
 | `novalidate`        | sets the field novalidate state                                                                                                                                                                                |
 | `placeholder`       | sets the field placeholder value                                                                                                                                                                               |
-| `readonly`          | sets the field readonly state                                                                                                                                                                                  |
+| `readonly`          | sets the field read-only state                                                                                                                                                                                  |
 | `size`              | sets the field size, which in turn adds a class to its container. Valid values are `large`, `x-small`, `medium`, `long`, `small`. You can of course add more in the template you see, when used in the frontend |
 | `style`             | sets the field style. If set to `vertical`, the field is able to appear full width. This is an easy way to clean up the form.                                                                                  |
 | `title`             | sets the field title value                                                                                                                                                                                     |
@@ -247,7 +247,7 @@ metadata:
 
 ![Colorpicker](colorpicker_field.png)
 
-The `colorpicker` field type is used to display a colorpicker field
+The `colorpicker` field type is used to display a color picker field
 
 Example:
 
@@ -426,7 +426,7 @@ frontmatter:
 
 | Attribute    | Description                                                                              |
 | :-----       | :-----                                                                                   |
-| `codemirror` | A set of values to be set on the [codemirror editor](https://codemirror.net/doc/manual.html#config). By default uses mode: gfm (markdown) |
+| `codemirror` | A set of values to be set on the [codemirror editor](https://codemirror.net/doc/manual.html#config). By default uses mode: gfm (github flavored markdown) |
 | `resizer`    | If positive, enables the resizer. Otherwise the editor is fixed                          |
 
 | Common Attributes Allowed                      |
@@ -705,6 +705,16 @@ header.features:
       label: Text
 ```
 
+Accessing and displaying the data of a `list` field is done with a simple twig for loop, like in the example below:
+
+```
+{% for feature in page.header.features %}
+    {{ feature.icon }}
+    {{ feature.header }}
+    {{ feature.text }}
+{% endfor %}
+```
+
 
 | Attribute   | Description                                              |
 | :-----      | :-----                                                   |
@@ -713,6 +723,10 @@ header.features:
 | `style`     | Can be set to `vertical` to conserve horizontal space    |
 | `btnLabel`  | The "add new item" label text                            |
 | `sort`      | Boolean. If negative, disables the ability to sort items |
+| `controls`  | Decides where the "Add Item" button will be placed. Can be set to `[top|bottom|both]` defaults to `bottom`.  |
+| `min`       | Minimum number of items allowed in the list.             |
+| `max`       | Maximum number of items allowed in the list. 'Add item' button won't function past this number |
+
 
 | Common Attributes Allowed                      |
 | :-----                                         |
@@ -792,6 +806,7 @@ home.alias:
 | `multiple`     | Select multiple pages                  |
 | `selectize`    |                                        |
 
+If you set `multiple` to true, you need to add `validate.type: array`. Otherwise the array of selected pages will not be saved correctly.
 
 | Common Attributes Allowed                      |
 | :-----                                         |
@@ -990,7 +1005,7 @@ summary.enabled:
 | Attribute   | Description                                                  |
 | :-----      | :-----                                                       |
 | `highlight` | The key of the option to highlight (set green when selected) |
-| `options`   | The list of key - value options                              |
+| `options`   | The list of key-value options                              |
 
 | Common Attributes Allowed                      |
 | :-----                                         |

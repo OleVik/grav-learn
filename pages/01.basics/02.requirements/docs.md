@@ -24,6 +24,7 @@ Even though technically you do not need a standalone web server, it is better to
 
 * OS X 10.9 Mavericks already ships with the Apache Web server and PHP 5.5, so job done!
 * [MAMP/MAMP Pro](http://mamp.info) comes with Apache, MySQL and of course PHP.  It is a great way to get more control over which version of PHP you are running, setting up virtual hosts, plus other useful features such as automatically handling dynamic DNS.
+* [AMPPS](http://www.ampps.com/downloads) is a software stack from Softaculous enabling Apache, PHP, Perl, Python,.. This includes everything you need (and more) for GRAV development.
 
 ### Windows
 
@@ -31,6 +32,7 @@ Even though technically you do not need a standalone web server, it is better to
 * [EasyPHP](http://www.easyphp.org/) provides a personal Web hosting package as well as a more powerful developer version.
 * [MAMP for Windows](http://mamp.info) is a long-time Mac favorite, but now available for Windows.
 * [IIS with PHP](http://php.iis.net/) is a fast way to run PHP on Windows.
+* [AMPPS](http://www.ampps.com/downloads) is a software stack from Softaculous enabling Apache, PHP, Perl, Python,.. This includes everything you need (and more) for GRAV development.
 
 ### Linux
 
@@ -47,19 +49,24 @@ You should also ensure you have `AllowOverride All` set in the `<Directory>` and
 
 ### IIS Requirements
 
-Although IIS is considered a webserver ready to run 'out-of-the-box' there are some changes that need to be made.
-To get **Grav** to run on an IIS server you need to install **URL Rewrite**. This can be accomplished using **Microsoft Web Platform Installer** from within IIS. You can also install URL Rewrite by going to [iis.net](http://www.iis.net/downloads/microsoft/url-rewrite).
+Although IIS is considered a webserver ready to run 'out-of-the-box', there are some changes that need to be made.
+To get **Grav** running on an IIS server you need to install **URL Rewrite**. This can be accomplished using **Microsoft Web Platform Installer** from within IIS. You can also install URL Rewrite by going to [iis.net](https://www.iis.net/downloads/microsoft/url-rewrite).
 
 ### PHP Requirements
 
 Most hosting providers and even local LAMP setups have PHP pre-configured with everything you need for Grav to run 'out-of-the-box'. However, some Windows setups, and even Linux distributions local or on VPS (I'm looking at you Debian!) - ship with a very minimal PHP compile. Therefore, you may need to install or enable these PHP modules:
 
-* `gd` (a graphics library used to manipulate images)
 * `curl` (client for URL handling used by GPM)
-* `openssl` (secure sockets library used by GPM)
-* `zip` extension support (used by GPM)
+* `ctype` (used by symfony/yaml/Inline)
+* `dom` (used by grav/admin newsfeed)
+* `gd` (a graphics library used to manipulate images)
+* `json` (used by Symfony/Composer/GPM)
 * `mbstring` (multibyte string support)
+* `openssl` (secure sockets library used by GPM)
+* `session` (used by toolbox)
+* `simplexml` (used by grav/admin newsfeed)
 * `xml` (XML support)
+* `zip` extension support (used by GPM)
 
 For enabling `openssl` and (un)zip support you will need to find in the `php.ini` file of your Linux distribution for lines like:
 
@@ -78,7 +85,7 @@ and remove the leading semicolon.
 
 ### Permissions
 
-For Grav to function properly, your webserver needs to have the appropriate **file permissions** in order to write logs, caches, etc.  When using either the [CLI](/advanced/grav-cli) or [GPM](/advanced/grav-gpm), the user running PHP from the command line also needs to have the appropriate permissions to modify files.
+For Grav to function properly, your webserver needs to have the appropriate **file permissions** in order to write logs, caches, etc.  When using either the [CLI](/advanced/grav-cli) (Command Line Interface) or [GPM](/advanced/grav-gpm) (Grav Package Manager), the user running PHP from the command line also needs to have the appropriate permissions to modify files.
 
 By default, Grav will install with `644` and `755` permissions for files and folders, respectively. Most hosting providers have configurations that ensure that a webserver running PHP will allow you to create and modify files within your user account.  This means that Grav runs **out-of-the-box** on the vast majority of hosting providers.
 
@@ -119,6 +126,7 @@ Although you can get away with Notepad, Textedit, Vi, or whatever default text e
 2. [Atom](http://atom.io) - OS X/Windows/Linux - A new editor developed by Github. It's free and open source.  It is similar to Sublime, but does not have the sheer depth of plugins available yet.
 3. [Notepad++](http://notepad-plus-plus.org/) - Windows - A free and very popular developer's editor for Windows.
 4. [Bluefish](http://bluefish.openoffice.nl/index.html) - OS X/Windows/Linux - A free, open source text editor geared towards programmers and web developers.
+5. [Visual Studio Code](https://code.visualstudio.com/) - A lightweight but powerful source code editor which runs on your desktop and is available for Windows, macOS and Linux.
 
 ### Markdown Editors
 
@@ -126,8 +134,8 @@ Another option if you primarily work with just creating content, is to use a **M
 
 1. [MacDown](http://macdown.uranusjr.com/) - OS X - Free, a simple lightweight open source Markdown editor.
 1. [LightPaper](http://lightpaper.42squares.in/) - OS X - $9.99, clean, powerful.  Our markdown editor of choice on the Mac. **Get 25% OFF with Discount Code: GET_GRAV_25**
-2. [MarkDrop](http://culturezoo.com/markdrop/) - OS X - $5, but super clean and and Droplr support built-in.
-3. [MarkdownPad](http://markdownpad.com/) - Windows - Free and Pro versions. Even has YAML front-matter support.  A very solid solution for Windows users .
+2. [MarkDrop](http://culturezoo.com/markdrop/) - OS X - $5, but super clean and Droplr support built-in.
+3. [MarkdownPad](http://markdownpad.com/) - Windows - Free and Pro versions. Even has YAML front-matter support.  A very solid solution for Windows users.
 
 ### FTP Clients
 
@@ -135,7 +143,7 @@ Although there are many ways to deploy **Grav**, the simplest is to simply copy 
 
 1. [Transmit](http://panic.com/transmit/) - OS X - The de facto FTP/SFTP client on OS X.  Easy to use, fast, folder-syncing and pretty much anything else you could ask for.
 2. [FileZilla](https://filezilla-project.org/) - OS X/Windows/Linux - Probably the best option for Windows and Linux users. Free and very powerful (but very ugly on the Mac!).
-3. [Cyberduck](http://cyberduck.io/) - OS X/Windows - A decent free option for both OS X and Windows users.  Not as full featured as the others.
+3. [Cyberduck](http://cyberduck.io/) - OS X/Windows - A decent free option for both OS X and Windows users.  Not as full-featured as the others.
 4. [ForkLift](http://www.binarynights.com/forklift/) - OS X - A solid alternative to Transmit, and slightly cheaper to boot.
 
 
